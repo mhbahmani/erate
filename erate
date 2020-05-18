@@ -1,0 +1,10 @@
+#!/bin/bash
+
+response_file=response.txt
+touch $response_file
+
+wget -q -O- https://www.tgju.org/chart/price_dollar_rl | grep "نرخ فعلی:" >> $response_file
+
+cat $response_file | cut -d '>' -f 5 | cut -d '<' -f 1
+
+rm -f $response_file
