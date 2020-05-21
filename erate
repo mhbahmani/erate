@@ -2,18 +2,12 @@
 
 dollar_price_link="https://www.tgju.org/chart/price_dollar_rl"
 
-response_file=response.txt
-touch $response_file
-
-
 get_dollar_price(){
 
-	wget -q -O- $dollar_price_link | grep "نرخ فعلی:" >> $response_file
-	dollar_price=$(cat $response_file | cut -d '>' -f 5 | cut -d '<' -f 1)
+	response=$(wget -q -O- $dollar_price_link | grep "نرخ فعلی:")
+	dollar_price=$(echo $response | cut -d '>' -f 5 | cut -d '<' -f 1)
 
 }
-
-rm -f $response_file
 
 help(){
 	echo "help!"
