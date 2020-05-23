@@ -1,19 +1,26 @@
 #!/bin/bash
 
+connection_checking_url="google.com"
+
 dollar_price_link="https://www.tgju.org/chart/price_dollar_rl"
 data_backups_dir="$HOME/.local/share/snc"
 dollor_price_file="$data_backups_dir/dollor.txt"
 
 
 get_dollar_price(){
-
 	response=$(wget -q -O- $dollar_price_link | grep -E "نرخ فعلی:|زمان ثبت آخرین نرخ:")
 	dollar_price=$(echo $response | cut -d '>' -f 5 | cut -d '<' -f 1)
 	last_update=$(echo $response | cut -d '>' -f 11 | cut -d '<' -f 1)
-	echo "Dollar Price: $dollar_price"
-	echo "Last Update: $last_update"
 }
 
+show_info(){
+	exchange=$1
+	price=$2
+	last_update=$3
+        echo "$exchange Price: $price"
+        echo "Last Update: $last_update"
+	
+}
 help(){
 	echo "help!"
 }
@@ -21,7 +28,7 @@ help(){
 case $1 in
         dollar | d)
                 get_dollar_price
-		#echo $dollar_price
+		show_info "Dollar" $dollar_price $last_update
                 ;;
         --help | -h) 
                 help
