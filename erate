@@ -7,6 +7,11 @@ data_backups_dir="$HOME/.local/share/snc"
 dollor_price_file="$data_backups_dir/dollor.txt"
 
 
+check_internet_connection(){
+        connection=$(ping -q -w 5 -c 1 $connection_checking_url > /dev/null 2>&1 && echo 1 || echo 0)
+        return $connection
+}
+
 get_dollar_price(){
 	response=$(wget -q -O- $dollar_price_link | grep -E "نرخ فعلی:|زمان ثبت آخرین نرخ:")
 	dollar_price=$(echo $response | cut -d '>' -f 5 | cut -d '<' -f 1)
