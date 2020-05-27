@@ -4,7 +4,7 @@ connection_checking_url="google.com"
 
 dollar_price_url="https://www.tgju.org/chart/price_dollar_rl"
 euro_price_url="https://www.tgju.org/chart/price_eur"
-data_backups_dir="$HOME/.local/share/snc"
+data_backups_dir="$HOME/.local/share/erate"
 dollor_price_file="$data_backups_dir/dollor.txt"
 euro_price_file="$data_backups_dir/euro.txt"
 
@@ -17,15 +17,16 @@ check_internet_connection(){
 get_price(){
 	exchange=$1
 	url=$2
+	price_file=$3
 	check_internet_connection
 	if test $? -eq 1; then
 		response=$(wget -q -O- $url | grep -E "نرخ فعلی:|زمان ثبت آخرین نرخ:")
 		price=$(echo $response | cut -d '>' -f 5 | cut -d '<' -f 1)
 		last_update=$(echo $response | cut -d '>' -f 11 | cut -d '<' -f 1)
-		show_info $exchange $price $last_update	
+		show_info $exchange $price $last_update	$price_file
 	else
-		price_file=$3
 		echo Internet connection failed
+		cat $price_file
 		exit
 		#TODO: load last saved price from files
 
@@ -44,9 +45,9 @@ show_info(){
 	exchange=$1
 	price=$2
 	last_update=$3
-        echo "$exchange: $price"
-        echo "Last Update: $last_update"
-	
+	price_file=$4
+        echo "$exchange: $price" | tee $price_file
+        echo "Last Update: $last_update" | tee -a $price_file
 }
 help(){
 	echo help!
