@@ -1,6 +1,6 @@
 <h1 align="center">erate (Exchange Rates)</h1>
 
-Are you wanna see exchanges rate on your terminal?! Give `erate` this honor to do this for you! Prices are based on [tgju.org](https://www.tgju.org/)
+Do you wanna see exchange rates on your terminal?! Give `erate` this honor to do this for you! Prices are based on [tgju.org](https://www.tgju.org/).
  
 ## erate; How to install
 ### Automatic
@@ -23,7 +23,7 @@ Are you wanna see exchanges rate on your terminal?! Give `erate` this honor to d
    * step into the directory: `cd erate`
    * run `./install.sh`
  * Windows
-   - ?@#$#%@#%#%^$ :(
+   - ?@#$#%@#%#%^$
    
 ## erate; How to use
 
