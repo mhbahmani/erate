@@ -2,9 +2,11 @@
 
 connection_checking_url="google.com"
 
-dollar_price_link="https://www.tgju.org/chart/price_dollar_rl"
+dollar_price_url="https://www.tgju.org/chart/price_dollar_rl"
+euro_price_url="https://www.tgju.org/chart/price_eur"
 data_backups_dir="$HOME/.local/share/snc"
 dollor_price_file="$data_backups_dir/dollor.txt"
+euro_price_file="$data_backups_dir/euro.txt"
 
 
 check_internet_connection(){
@@ -12,23 +14,37 @@ check_internet_connection(){
         return $connection
 }
 
-get_dollar_price(){
+get_price(){
+	exchange=$1
+	url=$2
 	check_internet_connection
 	if test $? -eq 1; then
-		response=$(wget -q -O- $dollar_price_link | grep -E "نرخ فعلی:|زمان ثبت آخرین نرخ:")
-		dollar_price=$(echo $response | cut -d '>' -f 5 | cut -d '<' -f 1)
+		response=$(wget -q -O- $url | grep -E "نرخ فعلی:|زمان ثبت آخرین نرخ:")
+		price=$(echo $response | cut -d '>' -f 5 | cut -d '<' -f 1)
 		last_update=$(echo $response | cut -d '>' -f 11 | cut -d '<' -f 1)
+		show_info $exchange $price $last_update	
 	else
-		echo internet connection failed
+		price_file=$3
+		echo Internet connection failed
+		exit
 		#TODO: load last saved price from files
+
 	fi
+}
+
+get_dollar_price(){
+	get_price "Dollar" $dollar_price_url $dollor_price_file
+}
+
+get_euro_price(){
+	get_price "Euro" $euro_price_url $euro_price_file
 }
 
 show_info(){
 	exchange=$1
 	price=$2
 	last_update=$3
-        echo "$exchange Price: $price"
+        echo "$exchange: $price"
         echo "Last Update: $last_update"
 	
 }
@@ -40,7 +56,9 @@ help(){
 case $1 in
         dollar | d)
                 get_dollar_price
-		show_info "Dollar" $dollar_price $last_update
+                ;;
+	euro | e)
+		get_euro_price
                 ;;
         --help | -h) 
                 help
