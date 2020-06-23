@@ -49,8 +49,12 @@ show_info(){
 }
 
 help(){
-	echo help!
-	#TODO: add help
+	echo 'COMMAND: erate [arguments]
+
+whit no arguments, you can see the all rates.
+argumetns:
+	`dollar` or `d` for dollar price
+	`euro` or `e` for euro price'
 }
 
 case $1 in
