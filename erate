@@ -1,8 +1,6 @@
 #!/bin/bash
 
-connection_checking_url="google.com"
-
-connection_check_url="https://www.tgju.org/"
+connection_check_url="www.tgju.org"
 dollar_price_url="https://www.tgju.org/chart/price_dollar_rl"
 euro_price_url="https://www.tgju.org/chart/price_eur"
 data_backups_dir="$HOME/.local/share/erate"
@@ -11,8 +9,7 @@ euro_price_file="$data_backups_dir/euro.txt"
 
 
 check_internet_connection(){
-        connection=$(ping -q -w 5 -c 1 $connection_checking_url > /dev/null 2>&1 && echo 1 || echo 0)
-        return $connection
+        ping -q -w 5 -c 1 $connection_check_url > /dev/null 2>&1 && return 1 || return 0
 }
 
 get_price(){
@@ -28,7 +25,6 @@ get_price(){
 	else
 		echo Internet connection failed
 		cat $price_file
-		exit
 	fi
 }
 
@@ -52,10 +48,6 @@ show_info(){
 get_all_exchanges(){
 	get_dollar_price
 	get_euro_price
-}
-
-check_internet_connection(){
-	ping -q -w 5 -c 1 $connection_check_url > /dev/null 2>&1 && return 0 || return 1
 }
 
 help(){
