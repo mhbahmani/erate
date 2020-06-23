@@ -29,10 +29,10 @@ Do you wanna see exchange rates on your terminal?! Give `erate` this honor to do
 
 | **Command**                       | **Description**                                       |
 |:----------------------------------|:------------------------------------------------------|
-|`erate`                            | Shows all exchage rates                               |
+|`erate`                            | Shows all exchages                                    |
 |`erate dollar, d`                  | Shows dollar price                                    |
 |`erate euro, e`                    | Shows euro price                                      |
-|`erate --help, -h`                 | Shows help table                                       |
+|`erate --help, -h`                 | Shows help table                                      |
 
 ## Bug Report and Feedback
 

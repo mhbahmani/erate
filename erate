@@ -48,6 +48,11 @@ show_info(){
         echo "Last Update: $last_update" | tee -a $price_file
 }
 
+get_all_exchanges(){
+	get_dollar_price
+	get_euro_price
+}
+
 help(){
 	echo 'COMMAND: erate [arguments]
 
@@ -68,6 +73,6 @@ case $1 in
                 help
                 ;;
         *)
-		echo "all exchanges"
-                ;;
+                get_all_exchanges
+		;;
 esac
