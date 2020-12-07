@@ -2,6 +2,8 @@ data_backups_dir="$HOME/.local/share/erate"
 dollar_price_file="$data_backups_dir/dollar.txt"
 euro_price_file="$data_backups_dir/euro.txt"
 
+sudo apt install jq
+
 rm -rf $data_backups_dir
 mkdir $data_backups_dir
 touch $dollar_price_file
