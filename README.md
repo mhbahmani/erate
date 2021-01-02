@@ -29,14 +29,15 @@ Do you wanna see exchange rates on your terminal?! Give `erate` this honor to do
 
 | **Command**                       | **Description**                                       |
 |:----------------------------------|:------------------------------------------------------|
-|`erate`                            | Shows all exchages                                    |
+|`erate`                            | Shows default exchange                                |
 |`erate dollar, d`                  | Shows dollar price                                    |
 |`erate euro, e`                    | Shows euro price                                      |
+|`erate bitcoin, btc`               | Shows bitcoin price                                   |
 |`erate --help, -h`                 | Shows help table                                      |
 
 ## Bug Report and Feedback
 
- * Please let me know if there is any bug
+ * Please let me know if there is any bug on [issues page](https://github.com/mhbahmani/erate/issues).
  * If you had any Feedback on `erate`, i'll be glad to hear it.
  * You can contact me via:
    * email: mhbahmani79@gmail.com / mhbahmani@ce.sharif.edu
