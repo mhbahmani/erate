@@ -2,27 +2,28 @@
 
 connection_check_url="google.com"
 api="https://api.tgju.online/v1/data/sana/json"
+bitcoin_api="https://api.coindesk.com/v1/bpi/currentprice.json"
 dollar_index=16
 euro_index=17
 data_backups_dir="$HOME/.local/share/erate"
 dollar_price_file="$data_backups_dir/dollar.txt"
 euro_price_file="$data_backups_dir/euro.txt"
+btc_price_file="$data_backups_dir/btc.txt"
 
 
 check_internet_connection(){
-        ping -q -w 5 -c 1 $connection_check_url > /dev/null 2>&1 && return 1 || return 0
+        ping -q -w 5 -c 1 $connection_check_url > /dev/null 2>&1 && echo 1 || echo 0
 }
 
 get_price(){
 	exchange=$1
 	index=$2
 	price_file=$3
-	check_internet_connection
-	if test $? -eq 1; then
+	if test $internet_connection -eq 1; then
 		response=$(wget -q -O- $api)
 		price=$(echo $response | jq ".sana | .data[$index].p")
-		last_update=$(echo $response | jq ".sana | .data[$index].updated_at")
-		show_info $exchange "$price" "$last_update" $price_file
+		last_update=$(echo $response | jq ".sana | .data[$index].updated_at" | sed 's/\"//g')
+		show_info $exchange "$price IRR" "$last_update" $price_file
 	else
 		echo Internet connection failed
 		cat $price_file
@@ -42,7 +43,7 @@ show_info(){
 	price=$2
 	last_update=$3
 	price_file=$4
-        echo "$exchange: $price IRR" | tee $price_file
+        echo "$exchange: $price" | tee $price_file
         echo "Last Update: $last_update" | tee -a $price_file
 }
 
@@ -60,6 +61,8 @@ argumetns:
 	`euro` or `e` for euro price'
 }
 
+internet_connection=$(check_internet_connection)
+
 case $1 in
         dollar | d)
                 get_dollar_price
@@ -67,6 +70,9 @@ case $1 in
 	euro | e)
 		get_euro_price
                 ;;
+	bitcoin | btc)
+		get_btc_price
+		;;
         --help | -h) 
                 help
                 ;;
