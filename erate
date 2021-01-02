@@ -38,6 +38,17 @@ get_euro_price(){
 	get_price "Euro" $euro_index $euro_price_file
 }
 
+get_btc_price(){
+	if test $internet_connection -eq 1; then
+		rate=$(wget -q -O- $bitcoin_api| jq ".bpi | .USD | .rate" | sed 's/\"//g')
+		show_info "Bitcoin" "$rate USD" "$(date +"%F %H:%M:%S")" $btc_price_file
+	else
+		cat $btc_price_file
+	fi	
+}
+
+
+
 show_info(){
 	exchange=$1
 	price=$2
