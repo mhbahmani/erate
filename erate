@@ -1,6 +1,6 @@
 #!/bin/bash
 
-connection_check_url="google.com"
+connection_check_url="4.2.2.4"
 api="https://api.tgju.online/v1/data/sana/json"
 bitcoin_api="https://api.coindesk.com/v1/bpi/currentprice.json"
 dollar_index=16
