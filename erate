@@ -15,15 +15,19 @@ check_internet_connection(){
         ping -q -w 5 -c 1 $connection_check_url > /dev/null 2>&1 && echo 1 || echo 0
 }
 
-get_price(){
+parse(){
 	exchange=$1
 	index=$2
+	price=$(echo $response | jq ".sana | .data[$index].p")
+	last_update=$(echo $response | jq ".sana | .data[$index].updated_at" | sed 's/\"//g')
+	show_info $exchange "$price IRR" "$last_update" $price_file
+}
+
+get_price(){
 	price_file=$3
 	if test $internet_connection -eq 1; then
 		response=$(wget -q -O- $api)
-		price=$(echo $response | jq ".sana | .data[$index].p")
-		last_update=$(echo $response | jq ".sana | .data[$index].updated_at" | sed 's/\"//g')
-		show_info $exchange "$price IRR" "$last_update" $price_file
+		parse $1 $2
 	else
 		echo Internet connection failed
 		cat $price_file
@@ -47,8 +51,6 @@ get_btc_price(){
 	fi	
 }
 
-
-
 show_info(){
 	exchange=$1
 	price=$2
@@ -58,7 +60,7 @@ show_info(){
         echo "Last Update: $last_update" | tee -a $price_file
 }
 
-get_all_exchanges(){
+get_all(){
 	get_dollar_price
 	get_euro_price
 }
@@ -88,6 +90,7 @@ case $1 in
                 help
                 ;;
         *)
-                get_dollar_price
+		get_dollar_price
+                # get_all
 		;;
 esac
